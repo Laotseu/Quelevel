@@ -54,6 +54,22 @@ end
 for _,event in pairs{"SAY", "GUILD", "GUILD_OFFICER", "WHISPER", "WHISPER_INFORM", "PARTY", "RAID", "RAID_LEADER", "BATTLEGROUND", "BATTLEGROUND_LEADER"} do ChatFrame_AddMessageEventFilter("CHAT_MSG_"..event, filter) end
 
 
+-- Added by Laotseu: my own coloring for gossip frame, I change the trivial and standard colours to be readable
+local function MyGetQuestDifficultyColor(level)
+	local levelDiff = level - UnitLevel("player");
+	local color
+	if ( levelDiff >= -2 ) then
+		color = GetQuestDifficultyColor(level);
+	elseif ( -levelDiff <= GetQuestGreenRange() ) then
+--		color = QuestDifficultyColor["standard"];
+		color = { r = 0.12, g = 0.37, b = 0.12 }
+	else
+--		color = QuestDifficultyColor["trivial"];
+		color = { r = 0.25, g = 0.25, b = 0.25 }
+	end
+	return color;
+end
+
 -- Add tags to gossip frame
 local i
 local TRIVIAL, NORMAL = "|cff%02x%02x%02x[%d%s%s]|r "..TRIVIAL_QUEST_DISPLAY, "|cff%02x%02x%02x[%d%s%s]|r ".. NORMAL_QUEST_DISPLAY
@@ -67,7 +83,7 @@ local function helper(isActive, ...)
 		local title, level, isTrivial, daily, repeatable = select(j, ...)
 		if isActive then daily, repeatable = nil end
 		if title and level and level ~= -1 then
-			local color = GetQuestDifficultyColor(level)
+			local color = MyGetQuestDifficultyColor(level)
 			_G["GossipTitleButton"..i]:SetFormattedText(isActive and isTrivial and TRIVIAL or NORMAL, color.r*255, color.g*255, color.b*255, level, repeatable and tags.Repeatable or "", daily and tags.Daily or "", title)
 		end
 		i = i + 1
