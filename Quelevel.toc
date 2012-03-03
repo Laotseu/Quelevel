@@ -1,4 +1,4 @@
-## Interface: 40100
+## Interface: 40300
 ## X-Curse-Packaged-Version: 4.1.0.10-Release
 ## X-Curse-Project-Name: Quelevel
 ## X-Curse-Project-ID: quelevel
