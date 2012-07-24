@@ -1,7 +1,10 @@
 
 
-local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "•", Heroic = "H", Repeatable = "∞"}
+local questtags, tags = {}, {Elite = "+", Group = "G", Dungeon = "D", Raid = "R", PvP = "P", Daily = "•", Heroic = "H", Repeatable = "\0xE2\0x88\0x9E"}
 
+local IS_MOP = select(4, _G.GetBuildInfo()) >= 50000
+local ACTIVE_QUEST_PARAMS = IS_MOP and 5 or 4
+local AVAILABLE_QUEST_PARAMS = IS_MOP and 6 or 5
 
 local function GetTaggedTitle(i)
 	local name, level, tag, group, header, _, complete, daily = GetQuestLogTitle(i)
@@ -77,7 +80,7 @@ local function helper(isActive, ...)
 	local num = select('#', ...)
 	if num == 0 then return end
 
-	local skip = isActive and 4 or 5
+	local skip = isActive and ACTIVE_QUEST_PARAMS or AVAILABLE_QUEST_PARAMS
 
 	for j=1,num,skip do
 		local title, level, isTrivial, daily, repeatable = select(j, ...)
